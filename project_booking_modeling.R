@@ -91,7 +91,6 @@ booking$type.of.meal <- relevel(booking$type.of.meal, ref = "Not Selected")
 # booking.status to Not_Canceled
 booking$booking.status <- relevel(booking$booking.status, ref = "Not_Canceled")
 
-
 # partition: 70% train, 30% validation
 set.seed(1234)
 train.index <- sample(1:nrow(booking), nrow(booking) * 0.7)
@@ -314,17 +313,21 @@ rf.cm
 
 ### compare performance of three models
 accuracy_comparison <- data.frame(
-  Model = c("Logistic Regression", "Control Tree", "Random Forest"),
+  Model = c("Logistic Regression", "Default Tree", "Control Tree", "Random Forest"),
   Accuracy = c(logit.cm.v6$overall["Accuracy"], 
+               default.ct.cm$overall["Accuracy"],
                control.ct.cm$overall["Accuracy"], 
                rf.cm$overall["Accuracy"]),
   Sensitivity = c(logit.cm.v6$byClass["Sensitivity"], 
+                  default.ct.cm$byClass["Sensitivity"],
                   control.ct.cm$byClass["Sensitivity"], 
                   rf.cm$byClass["Sensitivity"]),
   Specificity = c(logit.cm.v6$byClass["Specificity"], 
+                  default.ct.cm$byClass["Specificity"],
                   control.ct.cm$byClass["Specificity"], 
                   rf.cm$byClass["Specificity"]),
-  Balanced_Accuracy = c(logit.cm.v6$byClass["Balanced Accuracy"], 
+  Balanced_Accuracy = c(logit.cm.v6$byClass["Balanced Accuracy"],
+                        default.ct.cm$byClass["Balanced Accuracy"],
                         control.ct.cm$byClass["Balanced Accuracy"],
                         rf.cm$byClass["Balanced Accuracy"])
 )
